@@ -32,15 +32,16 @@ Aplikasi ini **murni front-end** (HTML + CSS + JavaScript) tanpa backend, menggu
 ## Struktur Proyek
 📦 portal-akademik
 ```
-├── index.html # Dasbor utama (login + jadwal + presensi)
-├── beranda.html # Halaman sambutan & pengumuman
-├── jadwal.html # Daftar jadwal kuliah (read-only)
-├── absensi.html # Rekap kehadiran mahasiswa
-├── kontak.html # Informasi kontak kampus
-├── lokasi.html # Alamat & peta kampus
-├── tentang.html # Profil pembuat aplikasi
-├── style.css # Styling global
-└── README.md # Dokumentasi ini
+├── css/
+│   └── style.css     # Styling global (Sidebar, tabel, card, dll)
+├── index.html        # Dasbor utama (login + jadwal + presensi)
+├── beranda.html      # Halaman sambutan & pengumuman
+├── jadwal.html       # Daftar jadwal kuliah (read-only)
+├── absensi.html      # Rekap kehadiran mahasiswa
+├── kontak.html       # Informasi kontak kampus
+├── lokasi.html       # Alamat & peta kampus
+├── tentang.html      # Profil pembuat aplikasi
+└── README.md         # Dokumentasi ini
 ```
 ---
 
