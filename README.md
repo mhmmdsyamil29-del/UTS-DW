@@ -1,6 +1,6 @@
 # Portal Akademik Universitas ABC
 
-Aplikasi web portal akademik sederhana untuk mahasiswa Universitas ABC. Dibuat sebagai tugas mata kuliah **Desain Web** oleh **Kelompok 4 / Kelompok 12**.
+Aplikasi web portal akademik sederhana untuk mahasiswa Universitas ABC. Dibuat sebagai tugas mata kuliah **Desain Web** oleh **Kelompok 12**.
 
 ---
 
