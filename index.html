@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Perkuliahan - Universitas ABC</title>
+    <style>
+        /* ========================================= */
+        /* CSS LENGKAP (DESAIN DASBOR & TABEL)       */
+        /* ========================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #a5a9d1; color: #333; display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 260px; background-color: #3b3d54; color: white; padding: 20px 0; display: flex; flex-direction: column; position: fixed; height: 100%; z-index: 100; }
+        .sidebar-header { padding: 0 20px 20px; border-bottom: 1px solid #55586f; margin-bottom: 20px; }
+        .sidebar-header h2 { font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .sidebar-header p { font-size: 0.8rem; color: #b0b3c6; margin-top: 5px; }
+        .sidebar-menu { list-style: none; }
+        .sidebar-menu li { margin: 5px 15px; }
+        .sidebar-menu a { text-decoration: none; color: #d1d5db; display: flex; align-items: center; padding: 12px 15px; border-radius: 8px; transition: 0.3s; font-size: 0.9rem; }
+        .sidebar-menu a:hover, .sidebar-menu a.active { background-color: #8b92d4; color: white; }
+        .sidebar-menu a i { margin-right: 15px; width: 20px; text-align: center; }
+
+        /* Main Content */
+        .main-content { margin-left: 260px; flex: 1; padding: 20px 30px; display: flex; flex-direction: column; width: calc(100% - 260px); }
+        
+        /* Header Card */
+        .header-card { background-color: #f4f5f9; border-radius: 12px; padding: 30px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); width: 100%; }
+        .header-text h4 { color: #7b819c; font-size: 0.8rem; font-weight: normal; margin-bottom: 10px; }
+        .header-text h1 { color: #1e2042; font-size: 1.6rem; margin-bottom: 10px; }
+        .header-text p { color: #555; font-size: 0.9rem; margin-bottom: 15px; max-width: 600px; }
+        .badges { display: flex; gap: 10px; }
+        .badge { background-color: #e5e7f1; color: #3b3d54; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; border: 1px solid #d1d5db; }
+        .header-illustration { width: 100px; height: 80px; background-color: #6b72a8; border-radius: 10px; display: flex; justify-content: center; align-items: center; }
+
+        /* Section Title */
+        .section-title { color: #2c2e43; font-size: 1.4rem; margin-bottom: 15px; font-weight: 700; }
+
+        /* Day Tabs */
+        .day-tabs { background-color: #f4f5f9; padding: 10px; border-radius: 10px; display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; width: 100%; }
+        .day-btn { background-color: white; border: 1px solid #d1d5db; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; color: #444; display: flex; align-items: center; gap: 8px; font-weight: 600; }
+        .day-btn .count { background-color: #e5e7f1; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; }
+        .day-btn.active { background-color: #4f538d; color: white; border-color: #4f538d; }
+        .day-btn.active .count { background-color: white; color: #4f538d; }
+
+        /* Table */
+        .table-container { background-color: #f4f5f9; border-radius: 12px; padding: 20px; overflow-x: auto; flex: 1; width: 100%; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        th { text-align: left; padding: 15px 10px; color: #1e2042; font-weight: 600; border-bottom: 2px solid #d1d5db; }
+        td { padding: 15px 10px; border-bottom: 1px solid #e5e7eb; color: #333; }
+        .status-badge { background-color: #5d5e8f; color: white; padding: 6px 14px; border-radius: 6px; font-size: 0.75rem; border: none; cursor: pointer; font-family: inherit; font-weight: 500; transition: background-color 0.3s; }
+        .total-row td { background-color: #e5e7f1; font-weight: bold; color: #1e2042; }
+
+                /* Footer */
+        footer { margin-top: 20px; font-size: 0.8rem; color: #3b3d54; display: flex; justify-content: flex-start; align-items: center; width: 100%; gap: 20px; }
+        .footer-links a { color: #3b3d54; text-decoration: none; margin-right: 15px; text-decoration: underline; }
+
+        /* Tombol Bantuan */
+        .help-btn { position: fixed; bottom: 20px; right: 20px; background-color: #4a7588; color: white; border: none; padding: 12px 20px; border-radius: 25px; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); z-index: 100; }
+
+        /* Login Overlay */
+        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #a5a9d1; display: flex; justify-content: center; align-items: center; z-index: 9999; }
+        .login-box { background-color: #f4f5f9; padding: 40px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        .login-box h2 { color: #1e2042; margin-bottom: 20px; }
+        .login-box input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
+        .login-box button { width: 100%; padding: 12px; background-color: #5d5e8f; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .login-box button:hover { background-color: #4a4b75; }
+        .error-msg { color: #dc3545; font-size: 0.9rem; margin-bottom: 15px; display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================== -->
+    <!-- TAMPILAN LOGIN -->
+    <!-- ========================================== -->
+    <div id="login-overlay">
+        <div class="login-box">
+            <h2>🎓 Login Portal</h2>
+            <p style="color: #555; margin-bottom: 20px; font-size: 0.9rem;">Silakan masuk untuk melihat jadwal.</p>
+            <div id="error-msg" class="error-msg">Username atau Password salah!</div>
+            <input type="text" id="username" placeholder="Username (admin)">
+            <input type="password" id="password" placeholder="Password (12345)">
+            <button onclick="prosesLogin()">Masuk</button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- KONTEN UTAMA (Tersembunyi sebelum login) -->
+    <!-- ========================================== -->
+    <div id="main-content-wrapper" style="display: none; width: 100%; display: flex;">
+        
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>📅 Dashboard</h2>
+                <p>Universitas ABC</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="index.html" class="active">⊞ Dasbor</a></li>
+                <li><a href="beranda.html">🏠 Beranda</a></li>
+                <li><a href="absensi.html">⏱ Absensi</a></li>
+                <li><a href="jadwal.html">📅 Jadwal kuliah</a></li>
+                <li><a href="kontak.html">✉ Kontak</a></li>
+                <li style="margin-top: 20px; border-top: 1px solid #55586f; padding-top: 10px;">
+                    <a href="#" onclick="logout()" style="color: #ff6b6b;">🚪 Logout</a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <select id="pilih-semester" style="display: none;">
+                <option value="Ganjil 2026/2027" selected>Ganjil 2026/2027</option>
+            </select>
+
+            <section class="header-card">
+                <div class="header-text">
+                    <h4>Dashboard</h4>
+                    <h1>Selamat Datang di Jadwal Perkuliahan Universitas ABC</h1>
+                    <p>Lihat jadwal kuliah Semester Ganjil 2026/2027 di bawah ini. Pilih hari untuk melihat mata kuliahnya.</p>
+                    <div class="badges">
+                        <span class="badge">Semester Ganjil 2026/2027</span>
+                        <span class="badge">9 mata kuliah</span>
+                        <span class="badge">23 SKS</span>
+                    </div>
+                </div>
+                <div class="header-illustration">
+                    <span style="color:white; font-size: 2rem;">📅</span>
+                </div>
+            </section>
+
+            <h2 class="section-title">Jadwal Kuliah</h2>
+
+            <div class="day-tabs">
+                <button class="day-btn">Senin <span class="count">3</span></button>
+                <button class="day-btn">Selasa <span class="count">2</span></button>
+                <button class="day-btn">Rabu <span class="count">3</span></button>
+                <button class="day-btn">Kamis <span class="count">3</span></button>
+                <button class="day-btn">Jumat <span class="count">3</span></button>
+                <button class="day-btn">Sabtu <span class="count">0</span></button>
+                <button class="day-btn">Minggu <span class="count">0</span></button>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Kode</th><th>Mata kuliah</th><th>Presensi</th><th>SKS</th>
+                            <th>Kelas</th><th>Waktu</th><th>Ruang</th><th>Dosen</th>
+                        </tr>
+                    </thead>
+                    <tbody id="jadwal-table-body"></tbody>
+                </table>
+            </div>
+
+            <footer>
+                <div>&copy; 2026 Jadwal Perkuliahan Universitas ABC - Kelompok 12.</div>
+                <div class="footer-links">
+                    <a href="tentang.html">Tentang</a>
+                    <a href="lokasi.html">Lokasi</a>
+                </div>
+            </footer>
+        </main>
+
+        <button class="help-btn">❓ Bantuan</button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================================== -->
+    <script>
+    // 1. SISTEM LOGIN
+    document.addEventListener("DOMContentLoaded", function() {
+        if (sessionStorage.getItem("isLoggedIn") === "true") {
+            document.getElementById('login-overlay').style.display = 'none';
+            document.getElementById('main-content-wrapper').style.display = 'flex'; // Gunakan flex agar sejajar
+            initJadwal();
+        }
+    });
+
+    function prosesLogin() {
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+        const errorMsg = document.getElementById('error-msg');
+
+        if (user === "admin" && pass === "12345") {
+            sessionStorage.setItem("isLoggedIn", "true");
+            document.getElementById('login-overlay').style.display = 'none';
+            document.getElementById('main-content-wrapper').style.display = 'flex';
+            initJadwal();
+        } else {
+            errorMsg.style.display = "block";
+        }
+    }
+
+    function logout() {
+        sessionStorage.removeItem("isLoggedIn");
+        location.reload(); 
+    }
+
+    // 2. LOGIKA JADWAL KULIAH
+    function initJadwal() {
+        const masterDataJadwal = {
+            "Ganjil 2026/2027": {
+                "Senin": [
+                    { kode: "4525", mk: "Komunikasi Data", sks: 2, kelas: "A", waktu: "08:00 - 10:00", ruang: "309", dosen: "Ir. Rakha Athalah, S.Kom." },
+                    { kode: "4524", mk: "Prak Basis Data", sks: 2, kelas: "A", waktu: "10:00 - 12:00", ruang: "305", dosen: "Dr. Ir. Arsanti Nur, S.Kom." },
+                    { kode: "4523", mk: "Basis Data", sks: 3, kelas: "A", waktu: "14:00 - 17:00", ruang: "209", dosen: "Nisrina Akila, S.Kom." },
+                   
+                ],
+                "Selasa": [
+                    { kode: "4526", mk: "Kewirausahaan", sks: 3, kelas: "A", waktu: "08:00 - 10:00", ruang: "Lab 1", dosen: "Budi Santoso, M.Kom." },
+                    { kode: "4527", mk: "Jaringan Komputer", sks: 2, kelas: "A", waktu: "13:00 - 15:00", ruang: "302", dosen: "Siti Aminah, M.T." }
+                ],
+                "Rabu": [
+                    { kode: "4528", mk: "Kecerdasan Buatan", sks: 1, kelas: "A", waktu: "08:00 - 9:00", ruang: "401", dosen: "Dr. Andi Wijaya" },
+                    { kode: "4525", mk: "Komunikasi Data", sks: 2, kelas: "A", waktu: "10:00 - 12:00", ruang: "309", dosen: "Ir. Rakha Athalah, S.Kom." },
+                    { kode: "4525", mk: "Prak. Pemrograman Berorientasi Objek", sks: 3, kelas: "A", waktu: "13:00 - 15:00", ruang: "309", dosen: "Nisrina Akila, S.Kom." },
+                ],
+                "Kamis": [
+                    { kode: "4529", mk: "Interaksi Manusia Komputer", sks: 2, kelas: "A", waktu: "08:00 - 10:00", ruang: "303", dosen: "Rina Melati, M.Kom." },
+                    { kode: "4525", mk: "Desain dan Analisis Algoritma", sks: 1, kelas: "A", waktu: "12:00 - 13:00", ruang: "309", dosen: "Ir. Rakha Athalah, S.Kom." },
+                    { kode: "4525", mk: "Pemrograman Berorientasi Objek", sks: 3, kelas: "A", waktu: "14:00 - 16:00", ruang: "309", dosen: "Dr. Ir. Arsanti Nur, S.Kom." },
+                    
+                ],
+                "Jumat": [
+                    { kode: "4531", mk: "Etika Profesi", sks: 2, kelas: "A", waktu: "08:00 - 10:00", ruang: "201", dosen: "Drs. Ahmad Subarjo" },
+                    { kode: "4525", mk: "Statistik dan Probabilitas 1", sks: 2, kelas: "A", waktu: "11:00 - 13:00", ruang: "309", dosen: "Nisrina Akila, S.Kom." },
+                    { kode: "4525", mk: "Arsitektur dan Organisasi Komputer", sks: 2, kelas: "A", waktu: "14:00 - 16:00", ruang: "309", dosen: "Dr. Ir. Arsanti Nur, S.Kom." },
+                ],
+                "Sabtu": [], "Minggu": []
+            },
+            "Genap 2026/2027": {
+                "Senin": [
+                    { kode: "5523", mk: "Basis Data Lanjut", sks: 3, kelas: "B", waktu: "09:00 - 12:00", ruang: "210", dosen: "Nisrina Akila, S.Kom." },
+                    { kode: "5524", mk: "Pemrograman Mobile", sks: 3, kelas: "B", waktu: "13:00 - 16:00", ruang: "Lab 2", dosen: "Budi Santoso, M.Kom." }
+                ],
+                "Selasa": [], "Rabu": [], "Kamis": [], "Jumat": [], "Sabtu": [], "Minggu": []
+            }
+        };
+
+        function getHariIni() {
+            return ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"][new Date().getDay()];
+        }
+
+        function cekStatusWaktu(w) {
+            const p = w.split(' - ');
+            const m = p[0].split(':'), s = p[1].split(':');
+            const now = new Date();
+            const cur = now.getHours()*60 + now.getMinutes();
+            const start = parseInt(m[0])*60 + parseInt(m[1]);
+            const end = parseInt(s[0])*60 + parseInt(s[1]);
+            if (cur < start) return { status:"belum", pesan:`Belum masuk waktu kuliah` };
+            if (cur > end) return { status:"habis", pesan:"Waktu perkuliahan sudah berakhir" };
+            return { status:"buka", pesan:"Waktu presensi dibuka" };
+        }
+
+        const tableBody = document.getElementById('jadwal-table-body');
+        const dayButtons = document.querySelectorAll('.day-btn');
+        const selectSemester = document.getElementById('pilih-semester');
+
+        function renderTable(hari, semester) {
+            const data = (masterDataJadwal[semester] || {})[hari] || [];
+            tableBody.innerHTML = '';
+            const hariIni = getHariIni();
+
+            if (data.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="8" style="text-align:center;">Tidak ada jadwal untuk hari ${hari} di ${semester}</td></tr>`;
+                return;
+            }
+
+            let totalSKS = 0;
+            data.forEach(item => {
+                totalSKS += item.sks;
+                const kunciStorage = `absensiData_${semester}`;
+                const absensiData = JSON.parse(localStorage.getItem(kunciStorage)) || {};
+                const sudahHadir = absensiData[item.mk] && absensiData[item.mk].hadir > 0;
+
+                let tombolHtml = '';
+                if (sudahHadir) {
+                    tombolHtml = `<button class="status-badge" style="background:#28a745;cursor:default;" disabled>Hadir ✔</button>`;
+                } else if (hari !== hariIni) {
+                    tombolHtml = `<button class="status-badge" style="background:#a0a0a0;cursor:not-allowed;" title="Bukan jadwal hari ini (Hari ini: ${hariIni})" disabled>Presensi</button>`;
+                } else {
+                    const info = cekStatusWaktu(item.waktu);
+                    tombolHtml = (info.status === "buka")
+                        ? `<button class="status-badge btn-presensi" data-matkul="${item.mk}" style="background:#5d5e8f;">Presensi</button>`
+                        : `<button class="status-badge" style="background:#a0a0a0;cursor:not-allowed;" title="${info.pesan}" disabled>Presensi</button>`;
+                }
+
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>${item.kode}</td>
+                        <td><b>${item.mk}</b></td>
+                        <td>${tombolHtml}</td>
+                        <td>${item.sks}</td>
+                        <td>${item.kelas}</td>
+                        <td>${item.waktu}</td>
+                        <td>${item.ruang}</td>
+                        <td>${item.dosen}</td>
+                    </tr>`;
+            });
+
+            tableBody.innerHTML += `
+                <tr class="total-row">
+                    <td colspan="3">Total SKS hari ${hari}</td>
+                    <td colspan="5">${totalSKS}</td>
+                </tr>`;
+
+            document.querySelectorAll('.btn-presensi').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const namaMatkul = this.getAttribute('data-matkul');
+                    const row = this.closest('tr');
+                    const waktuKuliah = row.cells[5].innerText;
+                    if (hari !== hariIni) { alert(`Gagal! Hari ini hari ${hariIni}.`); return; }
+                    const info = cekStatusWaktu(waktuKuliah);
+                    if (info.status !== "buka") { alert(info.pesan); return; }
+
+                    const kunciStorage = `absensiData_${semester}`;
+                    const dataAbsen = JSON.parse(localStorage.getItem(kunciStorage)) || {};
+                    if (!dataAbsen[namaMatkul]) dataAbsen[namaMatkul] = { hadir: 0 };
+                    dataAbsen[namaMatkul].hadir += 1;
+                    localStorage.setItem(kunciStorage, JSON.stringify(dataAbsen));
+                    alert(`Presensi ${namaMatkul} berhasil!`);
+                    renderTable(hari, semester);
+                });
+            });
+        }
+
+        selectSemester.addEventListener('change', function() {
+            const aktif = document.querySelector('.day-btn.active');
+            const hariAktif = aktif ? aktif.textContent.trim().split(' ')[0] : "Senin";
+            renderTable(hariAktif, this.value);
+        });
+
+        dayButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                dayButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const hari = this.textContent.trim().split(' ')[0];
+                renderTable(hari, selectSemester.value);
+            });
+        });
+
+        const hariIni = getHariIni();
+        const tombolHariIni = Array.from(dayButtons).find(b => b.textContent.includes(hariIni));
+        if (tombolHariIni) {
+            dayButtons.forEach(b => b.classList.remove('active'));
+            tombolHariIni.classList.add('active');
+            renderTable(hariIni, selectSemester.value);
+        } else {
+            renderTable("Senin", selectSemester.value);
+        }
+    }
+    </script>
+</body>
+</html>

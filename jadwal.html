@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Kuliah - Universitas ABC</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>📅 Dashboard</h2>
+            <p>Universitas ABC</p>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="index.html">⊞ Dasbor</a></li>
+            <li><a href="beranda.html">🏠 Beranda</a></li>
+            <li><a href="absensi.html">⏱ Absensi</a></li>
+            <li><a href="jadwal.html" class="active">📅 Jadwal kuliah</a></li>
+            <li><a href="kontak.html">✉ Kontak</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div style="margin-bottom: 20px; margin-top: 10px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+                <h1 style="color: #1e2042; font-size: 1.8rem; margin-bottom: 5px;">Jadwal Perkuliahan</h1>
+                <p style="color: #555; font-size: 0.95rem;">Universitas ABC</p>
+            </div>
+            <div>
+                <select id="pilih-semester" class="badge" style="cursor: pointer; outline: none; font-weight: bold; padding: 10px 15px; font-size: 0.9rem;">
+                    <option value="Ganjil 2026/2027">Semester Ganjil 2026/2027</option>
+                    <option value="Genap 2026/2027">Semester Genap 2026/2027</option>
+                    <option value="Ganjil 2027/2028">Semester Ganjil 2027/2028</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="day-tabs">
+            <button class="day-btn">Senin <span class="count">3</span></button>
+            <button class="day-btn">Selasa <span class="count">2</span></button>
+            <button class="day-btn">Rabu <span class="count">3</span></button>
+            <button class="day-btn">Kamis <span class="count">3</span></button>
+            <button class="day-btn">Jumat <span class="count">3</span></button>
+            <button class="day-btn">Sabtu <span class="count">0</span></button>
+            <button class="day-btn">Minggu <span class="count">0</span></button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kode</th><th>Mata kuliah</th><th>SKS</th>
+                        <th>Kelas</th><th>Waktu</th><th>Ruang</th><th>Dosen</th>
+                    </tr>
+                </thead>
+                <tbody id="jadwal-table-body"></tbody>
+            </table>
+        </div>
+
+        <footer>
+            <div>&copy; 2026 Jadwal Perkuliahan Universitas ABC - Kelompok 4.</div>
+            <div class="footer-links">
+                <a href="tentang.html">Tentang</a>
+                <a href="lokasi.html">Lokasi</a>
+            </div>
+        </footer>
+    </main>
+
+    <button class="help-btn">❓ Bantuan</button>
+
+    <script>
+    (function() {
+        const masterDataJadwal = {
+            "Ganjil 2026/2027": {
+               "Senin": [
+                    { kode: "4525", mk: "Komunikasi Data", sks: 2, kelas: "A", waktu: "08:00 - 10:00", ruang: "309", dosen: "Ir. Rakha Athalah, S.Kom." },
+                    { kode: "4524", mk: "Prak Basis Data", sks: 2, kelas: "A", waktu: "10:00 - 12:00", ruang: "305", dosen: "Dr. Ir. Arsanti Nur, S.Kom." },
+                    { kode: "4523", mk: "Basis Data", sks: 3, kelas: "A", waktu: "14:00 - 17:00", ruang: "209", dosen: "Nisrina Akila, S.Kom." },
+                   
+                ],
+                "Selasa": [
+                    { kode: "4526", mk: "Kewirausahaan", sks: 3, kelas: "A", waktu: "08:00 - 10:00", ruang: "Lab 1", dosen: "Budi Santoso, M.Kom." },
+                    { kode: "4527", mk: "Jaringan Komputer", sks: 2, kelas: "A", waktu: "13:00 - 15:00", ruang: "302", dosen: "Siti Aminah, M.T." }
+                ],
+                "Rabu": [
+                    { kode: "4528", mk: "Kecerdasan Buatan", sks: 1, kelas: "A", waktu: "08:00 - 9:00", ruang: "401", dosen: "Dr. Andi Wijaya" },
+                    { kode: "4525", mk: "Komunikasi Data", sks: 2, kelas: "A", waktu: "10:00 - 12:00", ruang: "309", dosen: "Ir. Rakha Athalah, S.Kom." },
+                    { kode: "4525", mk: "Prak. Pemrograman Berorientasi Objek", sks: 3, kelas: "A", waktu: "13:00 - 15:00", ruang: "309", dosen: "Nisrina Akila, S.Kom." },
+                ],
+                "Kamis": [
+                    { kode: "4529", mk: "Interaksi Manusia Komputer", sks: 2, kelas: "A", waktu: "08:00 - 10:00", ruang: "303", dosen: "Rina Melati, M.Kom." },
+                    { kode: "4525", mk: "Desain dan Analisis Algoritma", sks: 1, kelas: "A", waktu: "12:00 - 13:00", ruang: "309", dosen: "Ir. Rakha Athalah, S.Kom." },
+                    { kode: "4525", mk: "Pemrograman Berorientasi Objek", sks: 3, kelas: "A", waktu: "14:00 - 16:00", ruang: "309", dosen: "Dr. Ir. Arsanti Nur, S.Kom." },
+                    
+                ],
+                "Jumat": [
+                    { kode: "4531", mk: "Etika Profesi", sks: 2, kelas: "A", waktu: "08:00 - 10:00", ruang: "201", dosen: "Drs. Ahmad Subarjo" },
+                    { kode: "4525", mk: "Statistik dan Probabilitas 1", sks: 2, kelas: "A", waktu: "11:00 - 13:00", ruang: "309", dosen: "Nisrina Akila, S.Kom." },
+                    { kode: "4525", mk: "Arsitektur dan Organisasi Komputer", sks: 2, kelas: "A", waktu: "14:00 - 16:00", ruang: "309", dosen: "Dr. Ir. Arsanti Nur, S.Kom." },
+                ],
+                "Sabtu": [], "Minggu": []
+        
+            },
+            "Genap 2026/2027": {
+                "Senin": [
+                    { kode: "5523", mk: "Basis Data Lanjut", sks: 3, kelas: "B", waktu: "09:00 - 12:00", ruang: "210", dosen: "Nisrina Akila, S.Kom." },
+                    { kode: "5524", mk: "Pemrograman Mobile", sks: 3, kelas: "B", waktu: "13:00 - 16:00", ruang: "Lab 2", dosen: "Budi Santoso, M.Kom." }
+                ],
+                "Selasa": [], "Rabu": [], "Kamis": [], "Jumat": [], "Sabtu": [], "Minggu": []
+            },
+            "Ganjil 2027/2028": {
+                "Senin": [{ kode: "6621", mk: "Kecerdasan Buatan Lanjut", sks: 3, kelas: "C", waktu: "08:00 - 11:00", ruang: "402", dosen: "Dr. Andi Wijaya" }],
+                "Selasa": [], "Rabu": [], "Kamis": [], "Jumat": [], "Sabtu": [], "Minggu": []
+            }
+        };
+
+        function getHariIni() {
+            return ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"][new Date().getDay()];
+        }
+
+        const tableBody = document.getElementById('jadwal-table-body');
+        const dayButtons = document.querySelectorAll('.day-btn');
+        const selectSemester = document.getElementById('pilih-semester');
+
+        function renderTable(hari, semester) {
+            const data = (masterDataJadwal[semester] || {})[hari] || [];
+            tableBody.innerHTML = '';
+            if (data.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="7" style="text-align:center;">Tidak ada jadwal untuk hari ${hari} di ${semester}</td></tr>`;
+                return;
+            }
+            let totalSKS = 0;
+            data.forEach(item => {
+                totalSKS += item.sks;
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>${item.kode}</td>
+                        <td><b>${item.mk}</b></td>
+                        <td>${item.sks}</td>
+                        <td>${item.kelas}</td>
+                        <td>${item.waktu}</td>
+                        <td>${item.ruang}</td>
+                        <td>${item.dosen}</td>
+                    </tr>`;
+            });
+            tableBody.innerHTML += `
+                <tr class="total-row">
+                    <td colspan="2">Total SKS hari ${hari}</td>
+                    <td colspan="5">${totalSKS}</td>
+                </tr>`;
+        }
+
+        selectSemester.addEventListener('change', function() {
+            const aktif = document.querySelector('.day-btn.active');
+            const hariAktif = aktif ? aktif.textContent.trim().split(' ')[0] : "Senin";
+            renderTable(hariAktif, this.value);
+        });
+
+        dayButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                dayButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const hari = this.textContent.trim().split(' ')[0];
+                renderTable(hari, selectSemester.value);
+            });
+        });
+
+        const hariIni = getHariIni();
+        const tombolHariIni = Array.from(dayButtons).find(b => b.textContent.includes(hariIni));
+        if (tombolHariIni) {
+            dayButtons.forEach(b => b.classList.remove('active'));
+            tombolHariIni.classList.add('active');
+            renderTable(hariIni, selectSemester.value);
+        } else {
+            renderTable("Senin", selectSemester.value);
+        }
+    })();
+    </script>
+</body>
+</html>

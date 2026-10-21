@@ -1,0 +1,271 @@
+/* Reset & Font */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #a5a9d1; /* Warna background ungu muda */
+    color: #333;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+    width: 260px;
+    background-color: #3b3d54; /* Warna sidebar gelap */
+    color: white;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100%;
+}
+
+.sidebar-header {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid #55586f;
+    margin-bottom: 20px;
+}
+
+.sidebar-header h2 {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-header p {
+    font-size: 0.8rem;
+    color: #b0b3c6;
+    margin-top: 5px;
+}
+
+.sidebar-menu {
+    list-style: none;
+}
+
+.sidebar-menu li {
+    margin: 5px 15px;
+}
+
+.sidebar-menu a {
+    text-decoration: none;
+    color: #d1d5db;
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border-radius: 8px;
+    transition: 0.3s;
+    font-size: 0.9rem;
+}
+
+.sidebar-menu a:hover, .sidebar-menu a.active {
+    background-color: #8b92d4; /* Warna aktif ungu terang */
+    color: white;
+}
+
+.sidebar-menu a i {
+    margin-right: 15px;
+    width: 20px;
+    text-align: center;
+}
+
+/* --- MAIN CONTENT --- */
+.main-content {
+    margin-left: 260px;
+    flex: 1;
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Konten (Kotak Putih Atas) */
+.header-card {
+    background-color: #f4f5f9;
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.header-text h4 {
+    color: #7b819c;
+    font-size: 0.8rem;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.header-text h1 {
+    color: #1e2042;
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+}
+
+.header-text p {
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    max-width: 600px;
+}
+
+.badges {
+    display: flex;
+    gap: 10px;
+}
+
+.badge {
+    background-color: #e5e7f1;
+    color: #3b3d54;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid #d1d5db;
+}
+
+.header-illustration {
+    width: 120px;
+    height: 100px;
+    background-color: #6b72a8;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Placeholder untuk gambar ilustrasi */
+}
+
+/* Judul Section */
+.section-title {
+    color: #2c2e43;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+/* Tombol Hari */
+.day-tabs {
+    background-color: #f4f5f9;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    overflow-x: auto;
+}
+
+.day-btn {
+    background-color: white;
+    border: 1px solid #d1d5db;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: #444;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.day-btn .count {
+    background-color: #e5e7f1;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+}
+
+.day-btn.active {
+    background-color: #4f538d;
+    color: white;
+    border-color: #4f538d;
+}
+
+.day-btn.active .count {
+    background-color: white;
+    color: #4f538d;
+}
+
+/* Tabel Jadwal */
+.table-container {
+    background-color: #f4f5f9;
+    border-radius: 12px;
+    padding: 20px;
+    overflow-x: auto;
+    flex: 1; /* Agar mengisi sisa ruang */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+th {
+    text-align: left;
+    padding: 15px 10px;
+    color: #1e2042;
+    font-weight: 600;
+    border-bottom: 2px solid #d1d5db;
+}
+
+td {
+    padding: 15px 10px;
+    border-bottom: 1px solid #e5e7eb;
+    color: #333;
+}
+
+.status-badge {
+    background-color: #5d5e8f;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 5px;
+    font-size: 0.75rem;
+}
+
+.total-row td {
+    background-color: #e5e7f1;
+    font-weight: bold;
+    color: #1e2042;
+}
+
+/* Footer */
+footer {
+    margin-top: 20px;
+    font-size: 0.8rem;
+    color: #3b3d54;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-links a {
+    color: #3b3d54;
+    text-decoration: none;
+    margin-left: 15px;
+    text-decoration: underline;
+}
+
+/* Tombol Bantuan Melayang */
+.help-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4a7588;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}

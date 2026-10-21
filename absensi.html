@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absensi - Universitas ABC</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>📅 Dashboard</h2>
+            <p>Universitas ABC</p>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="index.html">⊞ Dasbor</a></li>
+            <li><a href="beranda.html">🏠 Beranda</a></li>
+            <li><a href="absensi.html" class="active">⏱ Absensi</a></li>
+            <li><a href="jadwal.html">📅 Jadwal kuliah</a></li>
+            <li><a href="kontak.html">✉ Kontak</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <section class="header-card">
+            <div class="header-text">
+                <h4>Absensi</h4>
+                <h1>Rekap Kehadiran Mahasiswa</h1>
+                <p>Data kehadiran Anda pada semester ini berdasarkan presensi yang telah dilakukan di halaman Jadwal.</p>
+                <div style="margin-top: 15px;">
+                    <select id="pilih-semester" class="badge" style="cursor: pointer; outline: none; font-weight: bold; padding: 10px 15px; font-size: 0.9rem;">
+                        <option value="Ganjil 2026/2027">Semester Ganjil 2026/2027</option>
+                        <option value="Genap 2026/2027">Semester Genap 2026/2027</option>
+                        <option value="Ganjil 2027/2028">Semester Ganjil 2027/2028</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <h2 class="section-title">Daftar Kehadiran</h2>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mata Kuliah</th><th>Hadir</th><th>Izin</th><th>Sakit</th><th>Alpa</th>
+                    </tr>
+                </thead>
+                <tbody id="absensi-table-body"></tbody>
+            </table>
+
+            <button onclick="if(confirm('Yakin ingin menghapus semua data absensi?')) { localStorage.clear(); location.reload(); }"
+            </button>
+        </div>
+
+        <footer>
+            <div>&copy; 2026 Jadwal Perkuliahan Universitas ABC - Kelompok 4.</div>
+            <div class="footer-links">
+                <a href="tentang.html">Tentang</a>
+                <a href="lokasi.html">Lokasi</a>
+            </div>
+        </footer>
+    </main>
+
+    <button class="help-btn">❓ Bantuan</button>
+
+    <script>
+    (function() {
+        const masterDataJadwal = {
+            "Ganjil 2026/2027": {
+                "Senin": [
+                    { mk: "Komunikasi Data" }, { mk: "Prak Basis Data" }, { mk: "Basis Data" }
+                ],
+                "Selasa": [{ mk: "Kewirausahaan" }, { mk: "Jaringan Komputer" }],
+                "Rabu": [{ mk: "Kecerdasan Buatan" }, { mk: "Komunikasi Data" }, { mk: "Prak.Pemrograman Berorientasi Objek" }],
+                "Kamis": [{ mk: "Interaksi Manusia Komputer" }, { mk: "Desain dan Analisis Algoritma" }, { mk: "Pemrograman Berorientasi Objek" }],
+                "Jumat": [{ mk: "Etika Profesi" }, { mk: "Statistik dan Probabilitas 1" }, { mk: "Arsitektur dan Organisasi Komputer" }],
+                "Sabtu": [], "Minggu": []
+            },
+            "Genap 2026/2027": {
+                "Senin": [{ mk: "Basis Data Lanjut" }, { mk: "Pemrograman Mobile" }],
+                "Selasa": [], "Rabu": [], "Kamis": [], "Jumat": [], "Sabtu": [], "Minggu": []
+            },
+            "Ganjil 2027/2028": {
+                "Senin": [{ mk: "Kecerdasan Buatan Lanjut" }],
+                "Selasa": [], "Rabu": [], "Kamis": [], "Jumat": [], "Sabtu": [], "Minggu": []
+            }
+        };
+
+        const absensiTableBody = document.getElementById('absensi-table-body');
+        const selectSemesterAbsen = document.getElementById('pilih-semester');
+
+        function renderAbsensi(semester) {
+            const kunciStorage = `absensiData_${semester}`;
+            const dataAbsen = JSON.parse(localStorage.getItem(kunciStorage)) || {};
+            const matkulSet = new Set();
+            const jadwalSemester = masterDataJadwal[semester] || {};
+            Object.values(jadwalSemester).forEach(arr => arr.forEach(item => matkulSet.add(item.mk)));
+
+            let html = '';
+            if (matkulSet.size === 0) {
+                html = `<tr><td colspan="5" style="text-align:center;">Belum ada mata kuliah di semester ini.</td></tr>`;
+            } else {
+                matkulSet.forEach(matkul => {
+                    const jumlahHadir = dataAbsen[matkul] ? dataAbsen[matkul].hadir : 0;
+                    html += `
+                        <tr>
+                            <td><b>${matkul}</b></td>
+                            <td><span style="color:#28a745;font-weight:bold;">${jumlahHadir}</span></td>
+                            <td>0</td><td>0</td><td>0</td>
+                        </tr>`;
+                });
+            }
+            absensiTableBody.innerHTML = html;
+        }
+
+        selectSemesterAbsen.addEventListener('change', function() { renderAbsensi(this.value); });
+        renderAbsensi(selectSemesterAbsen.value);
+    })();
+    </script>
+</body>
+</html>
