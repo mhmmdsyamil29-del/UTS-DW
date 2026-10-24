@@ -20,12 +20,12 @@ Aplikasi ini **murni front-end** (HTML + CSS + JavaScript) tanpa backend, menggu
 
 | Fitur | Deskripsi |
 |-------|-----------|
-| 🔐 **Login** | Autentikasi sederhana (demo) dengan session `sessionStorage` |
-| 📅 **Jadwal Kuliah** | Tampilan jadwal per hari (Senin–Minggu) & per semester |
-| ✅ **Presensi Otomatis** | Tombol presensi aktif hanya jika hari & jam kuliah sesuai |
-| 📊 **Rekap Absensi** | Ringkasan jumlah hadir per mata kuliah |
-| 🗑️ **Reset Data** | Hapus semua data absensi dari `localStorage` |
-| 📱 **Responsif** | Tabel dapat di-scroll horizontal pada layar kecil |
+| **Login** | Autentikasi sederhana (demo) dengan session `sessionStorage` |
+| **Jadwal Kuliah** | Tampilan jadwal per hari (Senin–Minggu) & per semester |
+| **Presensi Otomatis** | Tombol presensi aktif hanya jika hari & jam kuliah sesuai |
+| **Rekap Absensi** | Ringkasan jumlah hadir per mata kuliah |
+| **Reset Data** | Hapus semua data absensi dari `localStorage` |
+| **Responsif** | Tabel dapat di-scroll horizontal pada layar kecil |
 
 ---
 
@@ -96,7 +96,7 @@ Contoh: `absensiData_Ganjil 2026/2027`
 
 ---
 
-## 📊 Format Data `localStorage`
+## Format Data `localStorage`
 
 ```json
 {
